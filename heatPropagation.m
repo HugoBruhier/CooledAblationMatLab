@@ -1,4 +1,4 @@
-function [ output_args ] = heatPropagation( input_args )
+function [ output_args ] = heatPropagation(bulk,)
 % heatPropagation() calculate at time t+dt the temperature in all the
 % material (in 2 dimensions) using the equation of heat propagation with
 % numerical diferential (Taylor-Young's formula).

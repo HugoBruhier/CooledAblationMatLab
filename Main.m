@@ -32,20 +32,37 @@
 % the thermal diffusivity (we consider alpha be 1).
 
 %%
+% Initialisation of the programm : delete of the Command Window and the
+% Workspace
+
+clc;
+clear all;
+close all;
+
+
+%%
 % Mesh of the material
 
 widthTot = 1; % in cm
 depthTot = 1; % in cm
 
-nbWidth = 100; % how many points define width (tip min. 100)
-nbDepth = 100; % how many points define depth (tip min. 100)
+nbWidth = 1000; % how many points define width (tip -> min. 100)
+nbDepth = 1000; % how many points define depth (tip -> min. 100)
 
-bulk = zeros(nbWidth,nbDepth);
+% Array of the temperature
+bulk.temperature = zeros(nbWidth,nbDepth);
+
+% Boolean array of ablation, if it equal to 0 => non-ablated
+bulk.ablated = zeros(nbWidth,nbDepth);
+
+
 %%
 % Laser definition
 
-timeOfImpulse = 0; % in ns
-repetitionRate = 0; % in MHz
+timeOfImpulse = 0.150; % in ns
+repetitionRate = 12; % in MHz
 
-diameter = 0; % diameter of the spot in cm
+diameter = 0.2; % diameter of the spot in cm
 section = pi * (diameter * 0.01)^2 / 4; % calculation of the section of the spot in m^2
+
+waveLength = 1064; % central wavelength of the laser in nm
