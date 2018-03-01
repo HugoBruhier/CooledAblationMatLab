@@ -32,28 +32,19 @@
 % the thermal diffusivity (we consider alpha be 1).
 
 %%
-% Initialisation of the programm : delete of the Command Window and the
-% Workspace
-
-clc;
-clear all;
-close all;
-
-
-%%
 % Mesh of the material
 
 widthTot = 1; % in cm
 depthTot = 1; % in cm
 
-nbWidth = 1000; % how many points define width (tip -> min. 100)
-nbDepth = 1000; % how many points define depth (tip -> min. 100)
+nbWidth = 1000; % how many points define width (tip min. 100)
+nbDepth = 1000; % how many points define depth (tip min. 100)
 
 % Array of the temperature
-bulk.temperature = zeros(nbWidth,nbDepth);
+%bulk.temperature = zeros(nbWidth,nbDepth);
 
 % Boolean array of ablation, if it equal to 0 => non-ablated
-bulk.ablated = zeros(nbWidth,nbDepth);
+%bulk.ablated = zeros(nbWidth,nbDepth);
 
 
 %%
@@ -66,3 +57,30 @@ diameter = 0.2; % diameter of the spot in cm
 section = pi * (diameter * 0.01)^2 / 4; % calculation of the section of the spot in m^2
 
 waveLength = 1064; % central wavelength of the laser in nm
+
+E0=320; % energy needed to get the critial temperature
+Ep=E0/16; % energy of one pulse
+
+%%  Simulation 
+t=0:10^-12:5*10^-8;
+[T,P]=TemperatureIncreaseOnBulk(93,10^-10,10^-9,E0/16,t);
+[T1,P1]=TemperatureIncreaseOnBulk(93,10^-9,10^-9,E0/2,t);
+[T2,P2]=TemperatureIncreaseOnBulk(93,10^-8,10^-9,1.3*E0,t);
+figure;
+plot(t,T); 
+hold on;
+plot(t,T1);
+plot(t,T2);
+
+%% Save data in an excel
+% filename='Data.xlsx';
+% xlRange = ['B2';'C2';'D2'];
+% sheet='Feuil1';
+% xlswrite(filename,t',sheet,xlRange(1,:));
+% xlswrite(filename,T',sheet,xlRange(2,:));
+% xlswrite(filename,P',sheet,xlRange(3,:));
+% 
+% xlRange = ['B1';'C1';'D1'];
+% xlswrite(filename,'t',sheet,xlRange(1,:));
+% xlswrite(filename,'T',sheet,xlRange(2,:));
+% xlswrite(filename,'P',sheet,xlRange(3,:));
