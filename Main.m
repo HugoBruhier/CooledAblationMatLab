@@ -1,4 +1,8 @@
 %% Simulation of cooled ablation
+
+clc;
+clear;
+close all;
 %
 % This code is a little theorical simulation of the cooled ablation.
 % We use the equation of thermal propagation with a method of 
@@ -34,6 +38,7 @@
 %%
 % Mesh of the material
 
+
 widthTot = 1; % in cm
 depthTot = 1; % in cm
 
@@ -41,10 +46,10 @@ nbWidth = 1000; % how many points define width (tip min. 100)
 nbDepth = 1000; % how many points define depth (tip min. 100)
 
 % Array of the temperature
-%bulk.temperature = zeros(nbWidth,nbDepth);
+bulk.temperature = zeros(nbWidth,nbDepth);
 
 % Boolean array of ablation, if it equal to 0 => non-ablated
-%bulk.ablated = zeros(nbWidth,nbDepth);
+bulk.ablated = zeros(nbWidth,nbDepth);
 
 
 %%
@@ -62,15 +67,51 @@ E0=320; % energy needed to get the critial temperature
 Ep=E0/16; % energy of one pulse
 
 %%  Simulation 
-t=0:10^-12:5*10^-8;
-[T,P]=TemperatureIncreaseOnBulk(93,10^-10,10^-9,E0/16,t);
-[T1,P1]=TemperatureIncreaseOnBulk(93,10^-9,10^-9,E0/2,t);
-[T2,P2]=TemperatureIncreaseOnBulk(93,10^-8,10^-9,1.3*E0,t);
+t=0:10^-11:2.2*10^-8;
+
+t0 = 10^(-9);
+
+[T,P]=TemperatureIncreaseOnBulk(93,10^-10,t0,E0/16,t);
+[T1,P1]=TemperatureIncreaseOnBulk(93,10^-9,t0,E0/2,t);
+[T2,P2]=TemperatureIncreaseOnBulk(93,10^-8,t0,1.3*E0,t);
+
 figure;
+hold on
 plot(t,T); 
-hold on;
 plot(t,T1);
 plot(t,T2);
+legend('E = E_0/16    t_R = 10^{-10}','E = E_0/2    t_R = 10^{-9}','E = 1.3E_0    t_R = 10^{-8}');
+hold off;
+
+
+%% Find the parameters to have ablation
+
+ablation = zeros(50,50);
+for k = 1 : size(ablation,1) % energy
+    for l = 1 : size(ablation,2) % time
+        
+        time(l) = ((10-0.01)/size(ablation,2) * (l-1) + 0.01) * t0;
+        energy(k) = E0 * (0.99/size(ablation,1) * (k-1) + 0.01);
+        
+        
+        [T,P]=TemperatureIncreaseOnBulk(93,((10-0.01)/24 * (l-1) + 1) * t0,t0,E0 * (0.99/24 * (k-1) + 0.01),t);
+        
+        toto = [];
+        toto = find(T(100:end) > 350);
+        if length(toto) > 0
+            ablation(k,l) = 1; 
+        end
+        
+    end
+end
+
+%%
+
+figure;
+pcolor(time,energy,ablation);
+ylabel('energy');
+xlabel('time');
+shading('flat');
 
 %% Save data in an excel
 % filename='Data.xlsx';
