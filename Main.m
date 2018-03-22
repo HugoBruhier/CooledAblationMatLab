@@ -67,7 +67,11 @@ E0=320; % energy needed to get the critial temperature
 Ep=E0/16; % energy of one pulse
 
 %%  Simulation 
+<<<<<<< HEAD
 t=0:10^-11:5*2.2*10^-9;
+=======
+t=0:10^-11:2.2*10^-8;
+>>>>>>> 2a5bf2952be0e42ff4ddbb3760691c00d27fc6b5
 
 t0 = 10^(-9);
 
@@ -86,7 +90,11 @@ hold off;
 
 %% Find the parameters to have ablation
 
+<<<<<<< HEAD
 ablation = zeros(25,25);
+=======
+ablation = zeros(50,50);
+>>>>>>> 2a5bf2952be0e42ff4ddbb3760691c00d27fc6b5
 for k = 1 : size(ablation,1) % energy
     for l = 1 : size(ablation,2) % time
         
@@ -111,7 +119,11 @@ figure;
 pcolor(time,energy,ablation);
 ylabel('energy');
 xlabel('time');
+<<<<<<< HEAD
 shading('interp');
+=======
+shading('flat');
+>>>>>>> 2a5bf2952be0e42ff4ddbb3760691c00d27fc6b5
 
 %% Save data in an excel
 % filename='Data.xlsx';
