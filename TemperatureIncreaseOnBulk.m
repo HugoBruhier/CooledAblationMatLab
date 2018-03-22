@@ -33,4 +33,4 @@ for i=2:length(t)
         T(i)=T(i-1)*Cooling(t(i)-t(i-1));
     end
 end
-c=c
+c=c;
